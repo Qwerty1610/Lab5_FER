@@ -21,13 +21,11 @@ function EmployeeList() {
     axios.get(`${API_URL}/workons`).then((res) => setWorkons(res.data));
   }, []);
 
-  // Join: tìm tên phòng ban theo depId
   const getDepartmentName = (depId) => {
     const dep = departments.find((d) => String(d.id) === String(depId));
     return dep ? dep.depName : "Unknown";
   };
 
-  // Join: workons -> projects, tính tổng giờ làm của nhân viên
   const getProjectInfo = (empId) => {
     const joined = workons.filter((w) => String(w.empId) === String(empId));
     if (joined.length === 0) {
@@ -42,7 +40,6 @@ function EmployeeList() {
       .join(", ");
   };
 
-  // Checkbox filter theo phòng ban
   const handleDepCheck = (depId) => {
     setSelectedDeps((prev) =>
       prev.includes(depId)
@@ -51,7 +48,6 @@ function EmployeeList() {
     );
   };
 
-  // Xóa nhân viên (có confirm)
   const handleDelete = (emp) => {
     const fullName = `${emp.empName.firstName} ${emp.empName.lastName}`;
     if (window.confirm(`Are you sure you want to delete employee "${fullName}"?`)) {
@@ -62,26 +58,22 @@ function EmployeeList() {
   };
 
   const displayedEmployees = employees
-    // Search theo firstName + lastName (không phân biệt hoa thường)
     .filter((emp) => {
       const fullName =
         `${emp.empName.firstName} ${emp.empName.lastName}`.toLowerCase();
       return fullName.includes(searchTerm.trim().toLowerCase());
     })
-    // Filter theo các phòng ban được check
     .filter(
       (emp) =>
         selectedDeps.length === 0 ||
         selectedDeps.includes(String(emp.depId))
     )
-    // Mặc định sort giảm dần theo lương
     .sort((a, b) => b.empSalary - a.empSalary);
 
   return (
     <Container fluid className="py-4">
-      <h2 className="text-center mb-4">Employee Management</h2>
+      <h2 className="text-center mb-4">Employee Management System</h2>
       <Row>
-        {/* Sidebar filter phòng ban */}
         <Col md={3}>
           <Card>
             <Card.Header as="h5">Departments</Card.Header>
@@ -100,7 +92,6 @@ function EmployeeList() {
           </Card>
         </Col>
 
-        {/* Main content */}
         <Col md={9}>
           <Row className="mb-3">
             <Col md={8}>
