@@ -46,7 +46,6 @@ function EmployeeCreate() {
     e.preventDefault();
     if (!validate()) return;
 
-    // Lấy danh sách hiện tại để tính ID kế tiếp (max ID + 1)
     axios.get(`${API_URL}/employees`).then((res) => {
       const maxId = res.data.reduce((max, emp) => {
         const idNum = Number(emp.id);
@@ -63,7 +62,6 @@ function EmployeeCreate() {
         empGender: empGender,
         empBirthdate: empBirthdate,
         depId: Number(depId),
-        // Gán mặc định cho các field nâng cao
         supervisorId: null,
         dependents: [],
       };
